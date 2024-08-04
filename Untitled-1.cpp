@@ -102,7 +102,7 @@ void veDanEnemy(SDL_Renderer* renderer, SDL_Texture* danTexture, std::vector<Dan
     }
 }
 
-void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, int& score) {
+void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, int& score, std::vector<Dan>& allEnemyBullets) {
     for (auto& enemy : enemyList) {
         if (enemy.state == ACTIVE) {
             SDL_Rect enemyRect = { static_cast<int>(enemy.toaDo.x), static_cast<int>(enemy.toaDo.y), ENEMY_WIDTH, ENEMY_HEIGHT };
@@ -139,6 +139,9 @@ void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enem
         } else if (enemy.state == EXPLODING) {
             SDL_Rect explosionRect = { static_cast<int>(enemy.toaDo.x), static_cast<int>(enemy.toaDo.y), ENEMY_WIDTH, ENEMY_HEIGHT };
             SDL_RenderCopy(renderer, explosionTexture, NULL, &explosionRect);
+
+            allEnemyBullets.insert(allEnemyBullets.end(), enemy.danList.begin(), enemy.danList.end());
+            enemy.danList.clear();
 
             enemy.explosionFrame++;
             if (enemy.explosionFrame > 30) { // Assume 30 frames for explosion animation
@@ -215,6 +218,9 @@ int main(int argc, char* args[]) {
     ToaDo toaDoMayBay = { SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT - 100 };
     std::vector<Dan> danList;
     std::vector<Enemy> enemyList;
+
+
+    std::vector<Dan> allEnemyBullets; // Global list for all enemy bullets
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     int playerLives = 3;
     int score = 0;
@@ -288,8 +294,11 @@ int main(int argc, char* args[]) {
         if (!gameOver) {
             veMayBay(renderer, mayBayTexture, toaDoMayBay);
             veDan(renderer, danTexture, danList);
-            veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score);
+            veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets);
             veHearts(renderer, heartTexture, playerLives); // Render hearts
+
+
+            veDanEnemy(renderer, danTexture, allEnemyBullets); // Render all enemy bullets
 
             // Render score
             SDL_Color textColor = { 255, 255, 255, 255 };
