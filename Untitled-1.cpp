@@ -6,6 +6,7 @@
 #include "inc/SDL.h"
 #include "inc/SDL_image.h"
 #include "inc/SDL_ttf.h"
+#include "inc/SDL_mixer.h"
 
 #undef main
 const int SCREEN_WIDTH = 800;
@@ -35,6 +36,13 @@ enum EnemyState {
     EXPLODING,
     INACTIVE
 };
+
+enum GameState {
+    MAIN_MENU,
+    PLAYING,
+    GAME_OVER
+};
+
 
 struct Enemy {
     ToaDo toaDo;
@@ -102,7 +110,7 @@ void veDanEnemy(SDL_Renderer* renderer, SDL_Texture* danTexture, std::vector<Dan
     }
 }
 
-void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, int& score, std::vector<Dan>& allEnemyBullets) {
+void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, int& score, std::vector<Dan>& allEnemyBullets, Mix_Chunk* explosionSound, Mix_Chunk* bulletSound) {
     for (auto& enemy : enemyList) {
         if (enemy.state == ACTIVE) {
             SDL_Rect enemyRect = { static_cast<int>(enemy.toaDo.x), static_cast<int>(enemy.toaDo.y), ENEMY_WIDTH, ENEMY_HEIGHT };
@@ -121,6 +129,7 @@ void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enem
                 }
                 if (std::rand() % 10000 < 5) {
                     enemy.danList.push_back({ {enemy.toaDo.x + 44, enemy.toaDo.y + ENEMY_HEIGHT}, true });
+                    Mix_PlayChannel(-1, bulletSound, 0);
                 }
             }
 
@@ -131,6 +140,7 @@ void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enem
                     dan.active = false;
                     enemy.explosionFrame = 0;
                     score += 10; // Increase score by 10 when an enemy is destroyed
+                    Mix_PlayChannel(-1, explosionSound, 0); // Play explosion sound
                     break; // Exit the loop since this enemy is now exploding
                 }
             }
@@ -151,12 +161,13 @@ void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enem
     }
 }
 
-void checkCollisionWithPlayer(const ToaDo& playerPos, std::vector<Enemy>& enemyList, int& playerLives) {
+void checkCollisionWithPlayer(const ToaDo& playerPos, std::vector<Enemy>& enemyList, int& playerLives, Mix_Chunk* explosionSound) {
     for (auto& enemy : enemyList) {
         for (auto& dan : enemy.danList) {
             if (dan.active && kiemTraVaCham(dan.toaDo, BULLET_WIDTH, BULLET_HEIGHT, playerPos, PLAYER_WIDTH, PLAYER_HEIGHT)) {
                 dan.active = false;
                 playerLives--;
+                Mix_PlayChannel(-1, explosionSound, 0);
                 if (playerLives <= 0) {
                     printf("Game Over! Player has lost all lives.\n");
                 }
@@ -182,6 +193,7 @@ int main(int argc, char* args[]) {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // Initialize SDL_ttf
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048); // Initialize SDL_mixer
 
     SDL_Window* window = SDL_CreateWindow("Airplane Shooting Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -212,6 +224,12 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
+
+
+
+    Mix_Chunk* bulletSound = Mix_LoadWAV("sound/bullet.wav");
+    Mix_Chunk* explosionSound = Mix_LoadWAV("sound/explosion.wav");
+
     bool quit = false;
     bool gameOver = false;
     SDL_Event e;
@@ -225,7 +243,8 @@ int main(int argc, char* args[]) {
     int playerLives = 3;
     int score = 0;
     int explosionFrame = 0;
-
+    
+    
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -247,6 +266,7 @@ int main(int argc, char* args[]) {
                             break;
                         case SDLK_SPACE:
                             danList.push_back({ {toaDoMayBay.x + 44, toaDoMayBay.y - 20}, true });
+                            Mix_PlayChannel(-1, bulletSound, 0); // Play bullet sound
                             break;
                     }
                 } else {
@@ -294,7 +314,7 @@ int main(int argc, char* args[]) {
         if (!gameOver) {
             veMayBay(renderer, mayBayTexture, toaDoMayBay);
             veDan(renderer, danTexture, danList);
-            veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets);
+            veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound);
             veHearts(renderer, heartTexture, playerLives); // Render hearts
 
 
@@ -310,7 +330,7 @@ int main(int argc, char* args[]) {
             SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
             SDL_DestroyTexture(scoreTexture);
 
-            checkCollisionWithPlayer(toaDoMayBay, enemyList, playerLives);
+            checkCollisionWithPlayer(toaDoMayBay, enemyList, playerLives, explosionSound);
 
             if (playerLives <= 0) {
                 explosionFrame++;
@@ -353,6 +373,10 @@ int main(int argc, char* args[]) {
         SDL_RenderPresent(renderer);
     }
 
+    // Clean up sound effects
+    Mix_FreeChunk(bulletSound);
+    Mix_FreeChunk(explosionSound);
+
     SDL_DestroyTexture(mayBayTexture);
     SDL_DestroyTexture(danTexture);
     SDL_DestroyTexture(enemyTexture);
@@ -364,6 +388,7 @@ int main(int argc, char* args[]) {
     SDL_DestroyWindow(window);
     IMG_Quit();
     TTF_Quit(); // Quit SDL_ttf
+    Mix_CloseAudio(); // Close SDL_mixer
     SDL_Quit();
 
     return 0;
