@@ -37,12 +37,12 @@ enum EnemyState {
     INACTIVE
 };
 
+// man hinh chinh
 enum GameState {
     MAIN_MENU,
     PLAYING,
     GAME_OVER
 };
-
 
 struct Enemy {
     ToaDo toaDo;
@@ -184,6 +184,39 @@ void veHearts(SDL_Renderer* renderer, SDL_Texture* heartTexture, int playerLives
     }
 }
 
+// man hinh chinh
+void veMenuChinh(SDL_Renderer* renderer, TTF_Font* font) {
+    // Tăng kích thước font và vẽ tên game
+    TTF_Font* titleFont = TTF_OpenFont("font/VNI-Viettay.ttf", 72); // Tăng kích thước font lên 72
+
+    SDL_Color textColor = { 255, 255, 255, 255 };
+    SDL_Texture* titleTexture = createTextTexture(renderer, titleFont, "Airplane Shooting Game", textColor);
+
+    int textW = 0, textH = 0;
+    SDL_QueryTexture(titleTexture, NULL, NULL, &textW, &textH);
+
+    SDL_Color shadowColor = { 0, 0, 0, 255 }; // Màu đen cho đổ bóng
+    SDL_Texture* shadowTexture = createTextTexture(renderer, titleFont, "Airplane Shooting Game", shadowColor);
+    SDL_Rect shadowRect = { SCREEN_WIDTH / 2 - textW / 2 + 5, SCREEN_HEIGHT / 4 + 5, textW, textH };
+    SDL_RenderCopy(renderer, shadowTexture, NULL, &shadowRect);
+    SDL_DestroyTexture(shadowTexture);
+
+    SDL_Rect titleRect = { SCREEN_WIDTH / 2 - textW / 2, SCREEN_HEIGHT / 4, textW, textH };
+    SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+    SDL_DestroyTexture(titleTexture);
+
+    TTF_CloseFont(titleFont); // Đóng phông chữ sau khi sử dụng
+
+    // Vẽ nút Play
+    SDL_Rect playRect = { SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2, BUTTON_WIDTH, BUTTON_HEIGHT };
+    SDL_Color buttonColor = { 255, 0, 0, 255 };
+    SDL_Texture* playTexture = createTextTexture(renderer, font, "Play", buttonColor);
+    SDL_RenderCopy(renderer, playTexture, NULL, &playRect);
+    SDL_DestroyTexture(playTexture);
+}
+
+
+
 bool isInsideButton(int x, int y, SDL_Rect buttonRect) {
     return (x > buttonRect.x) && (x < buttonRect.x + buttonRect.w) &&
            (y > buttonRect.y) && (y < buttonRect.y + buttonRect.h);
@@ -243,13 +276,13 @@ int main(int argc, char* args[]) {
     int playerLives = 3;
     int score = 0;
     int explosionFrame = 0;
-    
+    GameState gameState = MAIN_MENU; // man hinh chinh
     
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 quit = true;
-            } else if (e.type == SDL_KEYDOWN) {
+            } else if (e.type == SDL_KEYDOWN && gameState == PLAYING) {
                 if (!gameOver) {
                     switch (e.key.keysym.sym) {
                         case SDLK_LEFT:
@@ -286,6 +319,12 @@ int main(int argc, char* args[]) {
             } else if (e.type == SDL_MOUSEBUTTONDOWN) {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
+                if (gameState == MAIN_MENU) {
+                SDL_Rect playRect = { SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2, BUTTON_WIDTH, BUTTON_HEIGHT };
+                if (isInsideButton(x, y, playRect)) {
+                    gameState = PLAYING;
+                }
+            } else if (gameState == GAME_OVER) {
                 SDL_Rect playAgainRect = { SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 + 100, BUTTON_WIDTH, BUTTON_HEIGHT };
                 SDL_Rect quitRect = { SCREEN_WIDTH / 2 - BUTTON_WIDTH / 2, SCREEN_HEIGHT / 2 + 200, BUTTON_WIDTH, BUTTON_HEIGHT };
                 if (isInsideButton(x, y, playAgainRect)) {
@@ -297,9 +336,11 @@ int main(int argc, char* args[]) {
                     danList.clear();
                     enemyList.clear();
                     explosionFrame = 0;
+                    gameState = PLAYING;
                 } else if (isInsideButton(x, y, quitRect)) {
                     quit = true;
                 }
+            }
             }
         }
 
@@ -311,7 +352,9 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
-        if (!gameOver) {
+        if (gameState == MAIN_MENU) {
+            veMenuChinh(renderer, font);
+        } else if (gameState == PLAYING) {
             veMayBay(renderer, mayBayTexture, toaDoMayBay);
             veDan(renderer, danTexture, danList);
             veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound);
@@ -338,10 +381,10 @@ int main(int argc, char* args[]) {
                     SDL_Rect explosionRect = { static_cast<int>(toaDoMayBay.x), static_cast<int>(toaDoMayBay.y), PLAYER_WIDTH, PLAYER_HEIGHT };
                     SDL_RenderCopy(renderer, explosionTexture, NULL, &explosionRect);
                 } else {
-                    gameOver = true;
+                    gameState = GAME_OVER;
                 }
             }
-        } else {
+        } else if (gameState == GAME_OVER) {
             SDL_Rect gameOverRect = { SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 50, 300, 100 };
             SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
 
