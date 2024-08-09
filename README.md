@@ -1,8 +1,8 @@
 # Plane Shooter Game
 
 ## About me
-Họ tên: Nguyễn Văn Hải
-Mã số sinh viên: 21021487
+- Họ tên: Nguyễn Văn Hải
+* Mã số sinh viên: 21021487
 
 ## Giới thiệu cơ bản về game
 Plane Shooter là một trò chơi điều khiển một chiếc máy bay chiến đấu và tiêu diệt kẻ địch để ghi điểm. Trò chơi được phát triển bằng C++ và SDL.
