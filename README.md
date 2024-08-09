@@ -11,9 +11,9 @@ Plane Shooter là một trò chơi điều khiển một chiếc máy bay chiế
 Game bao gồm màn hình chính, màn hình chơi game và màn hình kết thúc game.
 1. **Màn hình chính**: Bao gồm tên game và nút Play, khi bấm vào nút Play sẽ vào màn hình chơi game.
 2. **Màn hình chơi game**:
-- George Washington
-* John Adams
-+ Thomas Jefferson
+  - George Washington
+  * John Adams
+  + Thomas Jefferson
 3. **Mục tiêu**: Tiêu diệt càng nhiều kẻ địch càng tốt mà không để bị bắn trúng.
 
 ## Cách chơi game
