@@ -44,6 +44,13 @@ enum GameState {
     GAME_OVER
 };
 
+// tính năng
+enum EnemyType {
+    BASIC,
+    FAST,
+    STRONG
+};
+
 struct Enemy {
     ToaDo toaDo;
     double speed;
@@ -52,6 +59,7 @@ struct Enemy {
     int direction;
     int explosionFrame;
     std::vector<Dan> danList;
+    EnemyType type;
 };
 
 SDL_Texture* taiAnh(SDL_Renderer* renderer, const char* file) {
@@ -110,11 +118,48 @@ void veDanEnemy(SDL_Renderer* renderer, SDL_Texture* danTexture, std::vector<Dan
     }
 }
 
-void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, int& score, std::vector<Dan>& allEnemyBullets, Mix_Chunk* explosionSound, Mix_Chunk* bulletSound) {
+// tính năng
+void spawnEnemy(std::vector<Enemy>& enemyList) {
+    double x = static_cast<double>(std::rand() % (SCREEN_WIDTH - ENEMY_WIDTH));
+    EnemyType type;
+
+    int randomValue = std::rand() % 100;
+    if (randomValue < 70) { // 70% tạo kẻ địch loại BASIC
+        type = BASIC;
+    } else if (randomValue < 90) { // 20% tạo kẻ địch loại FAST
+        type = FAST;
+    } else { // 10% tạo kẻ địch loại STRONG
+        type = STRONG;
+    }
+
+    double speed;
+    if (type == BASIC) {
+        speed = 0.2;
+    } else if (type == FAST) {
+        speed = 0.5;
+    } else { // STRONG
+        speed = 0.15;
+    }
+}
+
+
+void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, SDL_Texture* fastEnemyTexture, SDL_Texture* strongEnemyTexture,
+             std::vector<Enemy>& enemyList, SDL_Texture* danTexture, std::vector<Dan>& danList, SDL_Texture* explosionTexture, 
+             int& score, std::vector<Dan>& allEnemyBullets, Mix_Chunk* explosionSound, Mix_Chunk* bulletSound) {
     for (auto& enemy : enemyList) {
+
+        SDL_Texture* currentTexture;
+        if (enemy.type == BASIC) {
+            currentTexture = enemyTexture;
+        } else if (enemy.type == FAST) {
+            currentTexture = fastEnemyTexture;
+        } else {
+            currentTexture = strongEnemyTexture;
+        }
+
         if (enemy.state == ACTIVE) {
             SDL_Rect enemyRect = { static_cast<int>(enemy.toaDo.x), static_cast<int>(enemy.toaDo.y), ENEMY_WIDTH, ENEMY_HEIGHT };
-            SDL_RenderCopy(renderer, enemyTexture, NULL, &enemyRect);
+            SDL_RenderCopy(renderer, currentTexture, NULL, &enemyRect);
 
             if (enemy.movingDown) {
                 enemy.toaDo.y += enemy.speed;
@@ -167,6 +212,11 @@ void checkCollisionWithPlayer(const ToaDo& playerPos, std::vector<Enemy>& enemyL
             if (dan.active && kiemTraVaCham(dan.toaDo, BULLET_WIDTH, BULLET_HEIGHT, playerPos, PLAYER_WIDTH, PLAYER_HEIGHT)) {
                 dan.active = false;
                 playerLives--;
+
+                if (enemy.type == STRONG) {
+                    playerLives--; // Mất thêm 1 mạng nếu va chạm với kẻ địch loại STRONG
+                }
+
                 Mix_PlayChannel(-1, explosionSound, 0);
                 if (playerLives <= 0) {
                     printf("Game Over! Player has lost all lives.\n");
@@ -234,6 +284,8 @@ int main(int argc, char* args[]) {
     SDL_Texture* mayBayTexture = taiAnh(renderer, "img/plane.png");
     SDL_Texture* danTexture = taiAnh(renderer, "img/bullet.png");
     SDL_Texture* enemyTexture = taiAnh(renderer, "img/enemy.png");
+    SDL_Texture* fastEnemyTexture = taiAnh(renderer, "img/enemy.png");
+    SDL_Texture* strongEnemyTexture = taiAnh(renderer, "img/enemy.png");
     SDL_Texture* explosionTexture = taiAnh(renderer, "img/explosion.png");
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
     SDL_Texture* gameOverTexture = taiAnh(renderer, "img/gameover.png");
@@ -248,7 +300,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    if (!mayBayTexture || !danTexture || !enemyTexture || !explosionTexture || !heartTexture || !gameOverTexture) {
+    if (!mayBayTexture || !danTexture || !enemyTexture ||!fastEnemyTexture || !strongEnemyTexture || !explosionTexture || !heartTexture || !gameOverTexture) {
         printf("Failed to load texture image!\n");
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
@@ -269,6 +321,9 @@ int main(int argc, char* args[]) {
     ToaDo toaDoMayBay = { SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT - 100 };
     std::vector<Dan> danList;
     std::vector<Enemy> enemyList;
+
+    std::vector<Enemy> fastEnemyList;
+    std::vector<Enemy> strongEnemyList;
 
 
     std::vector<Dan> allEnemyBullets; // Global list for all enemy bullets
@@ -374,7 +429,7 @@ int main(int argc, char* args[]) {
         } else if (gameState == PLAYING) {
             veMayBay(renderer, mayBayTexture, toaDoMayBay);
             veDan(renderer, danTexture, danList);
-            veEnemy(renderer, enemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound);
+            veEnemy(renderer, enemyTexture, fastEnemyTexture, strongEnemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound);
             veHearts(renderer, heartTexture, playerLives); // Render hearts
 
 
