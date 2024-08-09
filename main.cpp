@@ -277,6 +277,9 @@ int main(int argc, char* args[]) {
     int score = 0;
     int explosionFrame = 0;
     GameState gameState = MAIN_MENU; // man hinh chinh
+
+    Uint32 startTime = SDL_GetTicks(); // Lấy thời gian bắt đầu chơi
+    Uint32 lastShotTime = 0;
     
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
@@ -297,10 +300,15 @@ int main(int argc, char* args[]) {
                         case SDLK_DOWN:
                             toaDoMayBay.y += 10.0;
                             break;
-                        case SDLK_SPACE:
-                            danList.push_back({ {toaDoMayBay.x + 44, toaDoMayBay.y - 20}, true });
-                            Mix_PlayChannel(-1, bulletSound, 0); // Play bullet sound
+                        case SDLK_SPACE: {
+                            Uint32 currentTime = SDL_GetTicks();
+                            if (currentTime - lastShotTime >= 1000) {
+                                danList.push_back({ {toaDoMayBay.x + 44, toaDoMayBay.y - 20}, true });
+                                Mix_PlayChannel(-1, bulletSound, 0); // Play bullet sound
+                                lastShotTime = currentTime;
+                            }
                             break;
+                        }
                     }
                 } else {
                     if (e.key.keysym.sym == SDLK_RETURN) {
@@ -344,10 +352,19 @@ int main(int argc, char* args[]) {
             }
         }
 
-        if (std::rand() % 30000 < 2) {
+
+        Uint32 currentTime = SDL_GetTicks();
+        Uint32 elapsedTime = currentTime - startTime;
+
+        // Tần suất kể địch xuất hiện tăng dần đều
+        int spawnRate = 30000 - (elapsedTime / 100) * 50;
+        if (spawnRate < 5000) spawnRate = 5000;
+
+        if (std::rand() % spawnRate < 2) {
             double x = static_cast<double>(std::rand() % (SCREEN_WIDTH - ENEMY_WIDTH));
-            enemyList.push_back({ {x, 0}, 0.2, ACTIVE, true, 0, 0 }); // Reduced speed further
+            enemyList.push_back({ {x, 0}, 0.2, ACTIVE, true, 0, 0 });
         }
+
 
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
