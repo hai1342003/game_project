@@ -16,7 +16,7 @@ Game bao gồm màn hình chính, màn hình chơi game và màn hình kết th�
   - Sprite máy bay của người chơi.
   - Sprite kẻ địch xuất hiện ngẫu nhiên.
   - Đạn (do người chơi và kẻ địch bắn ra).
-3. **Màn hình kết thúc game**: Bao gồm tên game, số điểm người chơi đạt được và 2 nút bấm: Play Again và Quit.
+3. **Màn hình kết thúc game**: Bao gồm chữ Game Over, số điểm người chơi đạt được và 2 nút bấm: Play Again và Quit.
 
 ## Cách chơi game
 - **Di chuyển**: Sử dụng các phím mũi tên để điều khiển hướng di chuyển của máy bay.
@@ -24,3 +24,14 @@ Game bao gồm màn hình chính, màn hình chơi game và màn hình kết th�
 - **Mục tiêu**: Tiêu diệt càng nhiều kẻ địch càng tốt mà không để bị bắn trúng.
 - **Điểm số**: Mỗi kẻ địch bị tiêu diệt sẽ cộng điểm vào tổng điểm của bạn.
 
+## Đồ họa/Icon
+- Kẻ địch và máy bay người chơi khi bị tiêu diệt có hiệu ứng phát nổ: explosion.png
+- Đạn: bullet.png
+- Kẻ địch: enemy.png
+- Mạng của người chơi: heart.png
+- Chữ Game Over: gameover.png
+- Máy bay người chơi: plane.png
+
+## Âm thanh
+- Tiếng đạn bắn: bullet.wav
+- Tiếng phát nổ: explosion.wav
