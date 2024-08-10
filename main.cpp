@@ -330,7 +330,7 @@ int main(int argc, char* args[]) {
     SDL_Texture* mayBayTexture = taiAnh(renderer, "img/plane.png");
     SDL_Texture* danTexture = taiAnh(renderer, "img/bullet.png");
     SDL_Texture* enemyTexture = taiAnh(renderer, "img/enemy.png");
-    SDL_Texture* fastEnemyTexture = taiAnh(renderer, "img/enemy.png");
+    SDL_Texture* fastEnemyTexture = taiAnh(renderer, "img/fast_enemy.png");
     SDL_Texture* strongEnemyTexture = taiAnh(renderer, "img/strong_enemy.png");
     SDL_Texture* explosionTexture = taiAnh(renderer, "img/explosion.png");
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
