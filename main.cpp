@@ -372,7 +372,7 @@ int main(int argc, char* args[]) {
     SDL_Texture* explosionTexture = taiAnh(renderer, "img/explosion.png");
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
     SDL_Texture* gameOverTexture = taiAnh(renderer, "img/gameover.png");
-    // SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
+    SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
     SDL_Texture* itemInvincibleTexture = taiAnh(renderer, "img/khien.png");
     SDL_Texture* itemRapidFireTexture = taiAnh(renderer, "img/bullet.png");
 
@@ -518,7 +518,7 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
-        // SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
         if (gameState == MAIN_MENU) {
             veMenuChinh(renderer, font);
         } else if (gameState == PLAYING) {
@@ -610,7 +610,7 @@ int main(int argc, char* args[]) {
     SDL_DestroyTexture(gameOverTexture);
     SDL_DestroyTexture(itemInvincibleTexture);
     SDL_DestroyTexture(itemRapidFireTexture);
-    // SDL_DestroyTexture(backgroundTexture);
+    SDL_DestroyTexture(backgroundTexture);
     TTF_CloseFont(font); // Close the font  
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
