@@ -95,15 +95,15 @@ SDL_Texture* createTextTexture(SDL_Renderer* renderer, TTF_Font* font, const std
     return texture;
 }
 
-void veMayBay(SDL_Renderer* renderer, SDL_Texture* mayBayTexture, ToaDo toaDo, SDL_Texture* itemTexture, bool playerInvincible, bool rapidFire) {
+void veMayBay(SDL_Renderer* renderer, SDL_Texture* mayBayTexture, ToaDo toaDo, SDL_Texture* itemInvincibleTexture, SDL_Texture* itemRapidFireTexture, bool playerInvincible, bool rapidFire) {
     SDL_Rect mayBay = { static_cast<int>(toaDo.x), static_cast<int>(toaDo.y), PLAYER_WIDTH, PLAYER_HEIGHT };
     SDL_RenderCopy(renderer, mayBayTexture, NULL, &mayBay);
     if (playerInvincible) {
-        SDL_RenderCopy(renderer, itemTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
+        SDL_RenderCopy(renderer, itemInvincibleTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
 
     }
     if (rapidFire) {
-        SDL_RenderCopy(renderer, itemTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
+        SDL_RenderCopy(renderer, itemRapidFireTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
     }
 }
 
@@ -311,11 +311,18 @@ void veMenuChinh(SDL_Renderer* renderer, TTF_Font* font) {
     SDL_DestroyTexture(playTexture);
 }
 
-void veItems(SDL_Renderer* renderer, SDL_Texture* itemTexture, std::vector<Item>& items) {
+void veItems(SDL_Renderer* renderer, SDL_Texture* itemInvincibleTexture, SDL_Texture* itemRapidFireTexture, std::vector<Item>& items) {
     for (auto& item : items) {
-        if (item.active) {
+        if (item.active && item.type == INVINCIBLE_ITEM) {
             SDL_Rect itemRect = { static_cast<int>(item.toaDo.x), static_cast<int>(item.toaDo.y), HEART_WIDTH, HEART_HEIGHT };
-            SDL_RenderCopy(renderer, itemTexture, NULL, &itemRect);
+            SDL_RenderCopy(renderer, itemInvincibleTexture, NULL, &itemRect);
+            item.toaDo.y += item.fallSpeed;
+            if (item.toaDo.y > SCREEN_HEIGHT) {
+                item.active = false; // Đồ biến mất khi rơi xuống khỏi màn hình
+            }
+        } else if (item.active && item.type == RAPID_FIRE_ITEM) {
+            SDL_Rect itemRect = { static_cast<int>(item.toaDo.x), static_cast<int>(item.toaDo.y), HEART_WIDTH, HEART_HEIGHT };
+            SDL_RenderCopy(renderer, itemInvincibleTexture, NULL, &itemRect);
             item.toaDo.y += item.fallSpeed;
             if (item.toaDo.y > SCREEN_HEIGHT) {
                 item.active = false; // Đồ biến mất khi rơi xuống khỏi màn hình
@@ -325,7 +332,7 @@ void veItems(SDL_Renderer* renderer, SDL_Texture* itemTexture, std::vector<Item>
 }
 
 
-void checkItemCollision(ToaDo playerPos, std::vector<Item>& items, bool& playerInvincible, double& invincibleTime, bool& rapidFire) {
+void checkItemCollision(ToaDo playerPos, std::vector<Item>& items, bool& playerInvincible, double& invincibleTime, bool& rapidFire, double& rapidFireTime) {
     for (auto& item : items) {
         if (item.active && kiemTraVaCham(playerPos, PLAYER_WIDTH, PLAYER_HEIGHT, item.toaDo, HEART_WIDTH, HEART_HEIGHT)) {
             item.active = false;
@@ -334,6 +341,7 @@ void checkItemCollision(ToaDo playerPos, std::vector<Item>& items, bool& playerI
                 invincibleTime = 35; // Bất tử trong 3 giây
             } else if (item.type == RAPID_FIRE_ITEM) { // Kiểm tra nếu là item bắn đạn liên tục
                 rapidFire = true;
+                rapidFireTime = 35; // Bắn liên tục trong 3 giây
             }
         }
     }
@@ -365,7 +373,8 @@ int main(int argc, char* args[]) {
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
     SDL_Texture* gameOverTexture = taiAnh(renderer, "img/gameover.png");
     // SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
-    SDL_Texture* itemTexture = taiAnh(renderer, "img/khien.png");
+    SDL_Texture* itemInvincibleTexture = taiAnh(renderer, "img/khien.png");
+    SDL_Texture* itemRapidFireTexture = taiAnh(renderer, "img/bullet.png");
 
 
     TTF_Font* font = TTF_OpenFont("font/VNI-Viettay.ttf", 28); // Load font
@@ -378,7 +387,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
 
-    if (!mayBayTexture || !danTexture || !enemyTexture ||!fastEnemyTexture || !strongEnemyTexture || !explosionTexture || !heartTexture || !gameOverTexture || !itemTexture) {
+    if (!mayBayTexture || !danTexture || !enemyTexture ||!fastEnemyTexture || !strongEnemyTexture || !explosionTexture || !heartTexture || !gameOverTexture || !itemInvincibleTexture || !itemRapidFireTexture) {
         printf("Failed to load texture image!\n");
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
@@ -418,7 +427,10 @@ int main(int argc, char* args[]) {
     bool playerInvincible = false;
     double invincibleTime = 0;
 
+
+
     bool rapidFire = false;
+    double rapidFireTime = 0;
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -510,12 +522,12 @@ int main(int argc, char* args[]) {
         if (gameState == MAIN_MENU) {
             veMenuChinh(renderer, font);
         } else if (gameState == PLAYING) {
-            veMayBay(renderer, mayBayTexture, toaDoMayBay, itemTexture, playerInvincible, rapidFire);
+            veMayBay(renderer, mayBayTexture, toaDoMayBay, itemInvincibleTexture, itemRapidFireTexture, playerInvincible, rapidFire);
             veDan(renderer, danTexture, danList);
             veEnemy(renderer, enemyTexture, fastEnemyTexture, strongEnemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound, items);
             veHearts(renderer, heartTexture, playerLives); // Render hearts
-            veItems(renderer, itemTexture, items);
-            checkItemCollision(toaDoMayBay, items, playerInvincible, invincibleTime, rapidFire);
+            veItems(renderer, itemInvincibleTexture, itemRapidFireTexture, items);
+            checkItemCollision(toaDoMayBay, items, playerInvincible, invincibleTime, rapidFire, rapidFireTime);
             veDanEnemy(renderer, danTexture, allEnemyBullets); // Render all enemy bullets
 
             // Render score
@@ -532,6 +544,13 @@ int main(int argc, char* args[]) {
                 invincibleTime -= 0.017; // Giảm thời gian bất tử
                 if (invincibleTime <= 0) {
                     playerInvincible = false; // Hết thời gian, người chơi không còn bất tử
+                }
+            }
+
+            if (rapidFire) {
+                rapidFireTime -= 0.017; // Giảm thời gian bắn liên tục
+                if (rapidFireTime <= 0) {
+                    rapidFire = false; // Hết thời gian, người chơi không còn bắn được liên tục
                 }
             }
 
@@ -589,7 +608,8 @@ int main(int argc, char* args[]) {
     SDL_DestroyTexture(explosionTexture);
     SDL_DestroyTexture(heartTexture);
     SDL_DestroyTexture(gameOverTexture);
-    SDL_DestroyTexture(itemTexture);
+    SDL_DestroyTexture(itemInvincibleTexture);
+    SDL_DestroyTexture(itemRapidFireTexture);
     // SDL_DestroyTexture(backgroundTexture);
     TTF_CloseFont(font); // Close the font  
     SDL_DestroyRenderer(renderer);
