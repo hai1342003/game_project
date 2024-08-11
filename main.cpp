@@ -31,10 +31,18 @@ struct Dan {
     bool active;
 };
 
+enum ItemType {
+    INVINCIBLE_ITEM,
+    RAPID_FIRE_ITEM,
+    // Các loại item khác
+};
+
+
 struct Item {
     ToaDo toaDo;
     bool active;
     double fallSpeed;
+    ItemType type; // Thêm trường type để phân biệt các loại item
 };
 
 
@@ -87,12 +95,15 @@ SDL_Texture* createTextTexture(SDL_Renderer* renderer, TTF_Font* font, const std
     return texture;
 }
 
-void veMayBay(SDL_Renderer* renderer, SDL_Texture* mayBayTexture, ToaDo toaDo, SDL_Texture* itemTexture, bool playerInvincible) {
+void veMayBay(SDL_Renderer* renderer, SDL_Texture* mayBayTexture, ToaDo toaDo, SDL_Texture* itemTexture, bool playerInvincible, bool rapidFire) {
     SDL_Rect mayBay = { static_cast<int>(toaDo.x), static_cast<int>(toaDo.y), PLAYER_WIDTH, PLAYER_HEIGHT };
     SDL_RenderCopy(renderer, mayBayTexture, NULL, &mayBay);
     if (playerInvincible) {
         SDL_RenderCopy(renderer, itemTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
 
+    }
+    if (rapidFire) {
+        SDL_RenderCopy(renderer, itemTexture, NULL, &mayBay); // Vẽ hình khiên đè lên máy bay
     }
 }
 
@@ -206,8 +217,21 @@ void veEnemy(SDL_Renderer* renderer, SDL_Texture* enemyTexture, SDL_Texture* fas
                         item.toaDo = enemy.toaDo;
                         item.active = true;
                         item.fallSpeed = 0.2;
+                        item.type = INVINCIBLE_ITEM;
                         items.push_back(item);
                     }
+
+                    if (enemy.type == FAST) {
+                        // Tạo ra đồ rơi khi kẻ địch STRONG bị tiêu diệt
+                        Item item;
+                        item.toaDo = enemy.toaDo;
+                        item.active = true;
+                        item.fallSpeed = 0.3;
+                        item.type = RAPID_FIRE_ITEM;
+                        items.push_back(item);
+                    }
+
+                    
 
                     break; // Exit the loop since this enemy is now exploding
                 }
@@ -300,12 +324,17 @@ void veItems(SDL_Renderer* renderer, SDL_Texture* itemTexture, std::vector<Item>
     }
 }
 
-void checkItemCollision(ToaDo playerPos, std::vector<Item>& items, bool& playerInvincible, double& invincibleTime) {
+
+void checkItemCollision(ToaDo playerPos, std::vector<Item>& items, bool& playerInvincible, double& invincibleTime, bool& rapidFire) {
     for (auto& item : items) {
         if (item.active && kiemTraVaCham(playerPos, PLAYER_WIDTH, PLAYER_HEIGHT, item.toaDo, HEART_WIDTH, HEART_HEIGHT)) {
             item.active = false;
-            playerInvincible = true;
-            invincibleTime = 70; // Bất tử trong 3 giây
+            if (item.type == INVINCIBLE_ITEM) { // Kiểm tra nếu là item bất tử
+                playerInvincible = true;
+                invincibleTime = 35; // Bất tử trong 3 giây
+            } else if (item.type == RAPID_FIRE_ITEM) { // Kiểm tra nếu là item bắn đạn liên tục
+                rapidFire = true;
+            }
         }
     }
 }
@@ -335,7 +364,7 @@ int main(int argc, char* args[]) {
     SDL_Texture* explosionTexture = taiAnh(renderer, "img/explosion.png");
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
     SDL_Texture* gameOverTexture = taiAnh(renderer, "img/gameover.png");
-    SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
+    // SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
     SDL_Texture* itemTexture = taiAnh(renderer, "img/khien.png");
 
 
@@ -389,6 +418,7 @@ int main(int argc, char* args[]) {
     bool playerInvincible = false;
     double invincibleTime = 0;
 
+    bool rapidFire = false;
     while (!quit) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -410,7 +440,7 @@ int main(int argc, char* args[]) {
                             break;
                         case SDLK_SPACE: {
                             Uint32 currentTime = SDL_GetTicks();
-                            if (currentTime - lastShotTime >= 1000) {
+                            if (rapidFire || currentTime - lastShotTime >= 1000) {
                                 danList.push_back({ {toaDoMayBay.x + 44, toaDoMayBay.y - 20}, true });
                                 Mix_PlayChannel(-1, bulletSound, 0); // Play bullet sound
                                 lastShotTime = currentTime;
@@ -476,16 +506,16 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        // SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
         if (gameState == MAIN_MENU) {
             veMenuChinh(renderer, font);
         } else if (gameState == PLAYING) {
-            veMayBay(renderer, mayBayTexture, toaDoMayBay, itemTexture, playerInvincible);
+            veMayBay(renderer, mayBayTexture, toaDoMayBay, itemTexture, playerInvincible, rapidFire);
             veDan(renderer, danTexture, danList);
             veEnemy(renderer, enemyTexture, fastEnemyTexture, strongEnemyTexture, enemyList, danTexture, danList, explosionTexture, score, allEnemyBullets, explosionSound, bulletSound, items);
             veHearts(renderer, heartTexture, playerLives); // Render hearts
             veItems(renderer, itemTexture, items);
-            checkItemCollision(toaDoMayBay, items, playerInvincible, invincibleTime);
+            checkItemCollision(toaDoMayBay, items, playerInvincible, invincibleTime, rapidFire);
             veDanEnemy(renderer, danTexture, allEnemyBullets); // Render all enemy bullets
 
             // Render score
@@ -560,8 +590,8 @@ int main(int argc, char* args[]) {
     SDL_DestroyTexture(heartTexture);
     SDL_DestroyTexture(gameOverTexture);
     SDL_DestroyTexture(itemTexture);
-    SDL_DestroyTexture(backgroundTexture);
-    TTF_CloseFont(font); // Close the font
+    // SDL_DestroyTexture(backgroundTexture);
+    TTF_CloseFont(font); // Close the font  
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
