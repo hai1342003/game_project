@@ -42,7 +42,7 @@ Game bao gồm màn hình chính, màn hình chơi game và màn hình kết th�
 - Mạng của người chơi: heart.png
 - Chữ Game Over: gameover.png
 - Máy bay người chơi: plane.png
-- Đồ rơi ra khi hạ gục kẻ địch loại fast: bullet.png
+- Đồ rơi ra khi hạ gục kẻ địch loại fast: star.png
 - Đồ rơi ra khi hạ gục kẻ địch loại strong: khien.png
 
 ## Âm thanh
