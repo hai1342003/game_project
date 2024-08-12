@@ -507,7 +507,7 @@ int main(int argc, char* args[]) {
         Uint32 elapsedTime = currentTime - startTime;
 
         // Tần suất kể địch xuất hiện tăng dần đều
-        int spawnRate = 5000 - (elapsedTime / 100) * 50;
+        int spawnRate = 30000 - (elapsedTime / 100) * 50;
         if (spawnRate < 5000) spawnRate = 5000;
 
         if (std::rand() % spawnRate < 2) {
