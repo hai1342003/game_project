@@ -160,7 +160,7 @@ void spawnEnemy(std::vector<Enemy>& enemyList) {
     } else if (type == FAST) {
         speed = 0.4;
     } else { // STRONG
-        speed = 0.3;
+        speed = 0.5;
     }
 
     enemyList.push_back({ {x, 0}, speed, ACTIVE, true, 0, 0, {}, type});
