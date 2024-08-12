@@ -19,18 +19,24 @@ Game bao gồm màn hình chính, màn hình chơi game và màn hình kết th�
 3. **Màn hình kết thúc game**: Bao gồm chữ Game Over, số điểm người chơi đạt được và 2 nút bấm: Play Again và Quit.
 
 ## Cách chơi game
+
 - **Di chuyển**: Sử dụng các phím mũi tên để điều khiển hướng di chuyển của máy bay.
-- **Bắn**: Nhấn phím Space để bắn đạn.
+- **Bắn**: Nhấn phím Space để bắn đạn (chỉ bắn được 1 viên mỗi giây nếu đang ko sở hữu đồ của kẻ địch loại fast)
 - **Mục tiêu**: Tiêu diệt càng nhiều kẻ địch càng tốt mà không để bị bắn trúng.
 - **Điểm số**: Mỗi kẻ địch bị tiêu diệt sẽ cộng điểm vào tổng điểm của bạn.
+
 
 ## Đồ họa/Icon
 - Kẻ địch và máy bay người chơi khi bị tiêu diệt có hiệu ứng phát nổ: explosion.png
 - Đạn: bullet.png
-- Kẻ địch: enemy.png
+- Kẻ địch thường: enemy.png
+- Kẻ địch loại fast: fast_enemy.png
+- Kẻ địch loại strong: strong_enemy.png
 - Mạng của người chơi: heart.png
 - Chữ Game Over: gameover.png
 - Máy bay người chơi: plane.png
+- Đồ rơi ra khi hạ gục kẻ địch loại fast: bullet.png
+- Đồ rơi ra khi hạ gục kẻ địch loại strong: khien.png
 
 ## Âm thanh
 - Tiếng đạn bắn: bullet.wav
