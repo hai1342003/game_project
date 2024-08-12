@@ -14,8 +14,15 @@ Game bao gồm màn hình chính, màn hình chơi game và màn hình kết th�
   - Góc bên trái phía trên màn hình có 3 hình trái tim thể hiện số mạng của người chơi, khi bị kẻ địch bắn trúng sẽ mất 1 trái tim, khi hết trái tim sẽ chuyển sang màn hình kết thúc.
   - Góc bên phải phía trên màn hình có số điểm, ban đầu có 0 điểm, khi người chơi bắn chết 1 kẻ địch sẽ được cộng 10 điểm.
   - Sprite máy bay của người chơi.
-  - Sprite kẻ địch xuất hiện ngẫu nhiên.
+  - Sprite kẻ địch xuất hiện ngẫu nhiên:
+    1. Loại Basic
+    2. Loại Fast (khi bị hạ gục sẽ xuất hiện đồ (hình viên đạn) rơi từ trên xuống)
+    3. Loại Strong (khi bị hạ gục sẽ xuất hiện đồ (hình khiên) rơi từ trên xuống)
   - Đạn (do người chơi và kẻ địch bắn ra).
+
+  - Người chơi nhặt đồ hình viên đạn sẽ có viên đạn bên trên sprite máy bay của người chơi, trong 3 giây tiếp theo người chơi bấm space liên tục sẽ bắn đạn liên tục.
+  - Người chơi nhặt đồ hình khiên sẽ có khiên bên trên sprite máy bay của người chơi, trong 3 giây tiếp theo nếu người chơi bị kẻ địch bắn trúng sẽ ko mất mạng.
+
 3. **Màn hình kết thúc game**: Bao gồm chữ Game Over, số điểm người chơi đạt được và 2 nút bấm: Play Again và Quit.
 
 ## Cách chơi game
