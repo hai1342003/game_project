@@ -322,7 +322,7 @@ void veItems(SDL_Renderer* renderer, SDL_Texture* itemInvincibleTexture, SDL_Tex
             }
         } else if (item.active && item.type == RAPID_FIRE_ITEM) {
             SDL_Rect itemRect = { static_cast<int>(item.toaDo.x), static_cast<int>(item.toaDo.y), HEART_WIDTH, HEART_HEIGHT };
-            SDL_RenderCopy(renderer, itemInvincibleTexture, NULL, &itemRect);
+            SDL_RenderCopy(renderer, itemRapidFireTexture, NULL, &itemRect);
             item.toaDo.y += item.fallSpeed;
             if (item.toaDo.y > SCREEN_HEIGHT) {
                 item.active = false; // Đồ biến mất khi rơi xuống khỏi màn hình
@@ -372,9 +372,9 @@ int main(int argc, char* args[]) {
     SDL_Texture* explosionTexture = taiAnh(renderer, "img/explosion.png");
     SDL_Texture* heartTexture = taiAnh(renderer, "img/heart.png");
     SDL_Texture* gameOverTexture = taiAnh(renderer, "img/gameover.png");
-    SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
+    // SDL_Texture* backgroundTexture = taiAnh(renderer, "img/background.png");
     SDL_Texture* itemInvincibleTexture = taiAnh(renderer, "img/khien.png");
-    SDL_Texture* itemRapidFireTexture = taiAnh(renderer, "img/bullet.png");
+    SDL_Texture* itemRapidFireTexture = taiAnh(renderer, "img/star.png");
 
 
     TTF_Font* font = TTF_OpenFont("font/VNI-Viettay.ttf", 28); // Load font
@@ -507,7 +507,7 @@ int main(int argc, char* args[]) {
         Uint32 elapsedTime = currentTime - startTime;
 
         // Tần suất kể địch xuất hiện tăng dần đều
-        int spawnRate = 30000 - (elapsedTime / 100) * 50;
+        int spawnRate = 5000 - (elapsedTime / 100) * 50;
         if (spawnRate < 5000) spawnRate = 5000;
 
         if (std::rand() % spawnRate < 2) {
@@ -518,7 +518,7 @@ int main(int argc, char* args[]) {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
 
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        // SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
         if (gameState == MAIN_MENU) {
             veMenuChinh(renderer, font);
         } else if (gameState == PLAYING) {
@@ -610,7 +610,7 @@ int main(int argc, char* args[]) {
     SDL_DestroyTexture(gameOverTexture);
     SDL_DestroyTexture(itemInvincibleTexture);
     SDL_DestroyTexture(itemRapidFireTexture);
-    SDL_DestroyTexture(backgroundTexture);
+    // SDL_DestroyTexture(backgroundTexture);
     TTF_CloseFont(font); // Close the font  
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
