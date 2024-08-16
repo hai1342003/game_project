@@ -42,8 +42,7 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
   ![image](https://github.com/user-attachments/assets/c3651aee-8239-432d-aba7-2342738c9f0a)
 - Loại Strong
   ![image](https://github.com/user-attachments/assets/3dd5146e-299a-4768-8c3e-6a8b92c8793a)
-![453498087_2181294398872538_7395675315164132269_n](https://github.com/user-attachments/assets/b7b6128d-725e-4dd2-a1a5-85ac0fd94d26)
-![453653991_1880510125788386_6864094955909215025_n](https://github.com/user-attachments/assets/6c5b6567-fbc7-4f57-ae22-00c8a9f280e6)
+![455105119_1005678631337339_7153124175854775109_n](https://github.com/user-attachments/assets/94f49c8a-4eff-4bba-83c5-18689a322a40)
 
 ## Một vài hình ảnh về game
 - Bắt đầu
