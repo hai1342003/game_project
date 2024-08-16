@@ -1,6 +1,6 @@
 # Plane Shooter Game
 
-## About me
+## Giới thiệu về bản thân
 - Họ tên: Nguyễn Văn Hải
 * Mã số sinh viên: 21021487
 
@@ -55,6 +55,21 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 ### Item khiên bất tử
 ![454156063_1396139281079975_7976905351537259216_n-removebg-preview](https://github.com/user-attachments/assets/d91777ea-a9ab-498e-a321-daee84b5c193)
 
+## Cách cài đặt
+
+- Bước 1: Download file về máy
+* Bước 2: Giải nén
++ Bước 3: Tìm file ....exe, mở file ra và tận hưởng trò chơi.
+
+## Kỹ thuật sử dụng
+
+- Sử dụng được một số tính năng trong SDL2.0 : xử lí ảnh, va chạm, chuyển động, hiển thị chữ, âm thanh, thời gian, thao tác chuột, bàn phím,...
+* Sử dụng nhiều class, vector, mảng, biến, tách file, nạp chồng toán tử,...
++ Tạo ra các đối tượng máy bay, kẻ địch, các nút bấm,..
+- Tự tạo ra menu, nút bằng cách hiển thị khung và chữ chèn lên.
+* Dùng các kiến thức toán học, vật lí để tinh toán về tần suất xuất hiện của kẻ địch và đạn của chúng, thời gian tác dụng của item, tốc độ di chuyển,...
++ Tách các file,...
+
 ## Một vài hình ảnh về game
 - Bắt đầu
 ![image](https://github.com/user-attachments/assets/2bb9d3b8-a9de-489b-b500-2faec463fadd)
@@ -65,3 +80,20 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 
 ## Nguồn tham khảo
 - Lấy source ảnh, âm thanh và font chữ từ các nguồn: pixabay.com(âm thanh, ảnh), pngtree.com(ảnh), dafont.com(font chữ), ...
+
+## Kết luận
+### Điểm tốt
+- Dự án này do em hoàn toàn tự làm, tự học hỏi và tìm tòi không sao chép ở bất cứ đâu.
+* Cải thiện tư duy lên kế hoạch, phát triển sản phẩm, phân chia dự án có cấu trúc.
++ Học được cách setup môi trường, sử dụng thư viện.
+- Hiểu được các tư duy xử lí logic game, trạng thái của game.
+### Điểm hạn chế
+- Chia file chưa tối ưu, chưa chia thành từng folder.
+* Game chưa được đầu tư quá nhiều vào đồ họa (do máy em yếu ạ :)) ).
+### Hướng phát triển game
+- Thêm loại kẻ địch, các đồ rơi ra giúp game thêm phần thú vị.
+* Thêm máy bay mới với thiết kế và kỹ năng đặc biệt, người chơi sẽ mở khóa khi đạt được thành tích gì đó.
++ Đa dạng hóa chế độ chơi game: chế độ sinh tồn, chế độ vượt qua từng màn chơi, ...
+- Chế độ chơi nhiều người cùng nhau chiến đấu.
+* Tự thiết kế máy bay của người chơi.
++ Cải thiện đồ họa và tạo thêm hiệu ứng.
