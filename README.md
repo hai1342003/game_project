@@ -49,6 +49,7 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 
 ## Các loại item
 
+
 ### Item bắn đạn liên tục
 ![455112334_1201365014349980_8259644700510078457_n-removebg-preview](https://github.com/user-attachments/assets/af3e5f4b-d318-4d7d-a34b-34753fa8a486)
 
