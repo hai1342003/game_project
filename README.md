@@ -1,4 +1,4 @@
-# Plane Shooter Game
+![fast_enemy](https://github.com/user-attachments/assets/6578649d-e972-4cdc-b547-97cf07bf6e31)# Plane Shooter Game
 
 ## About me
 - Họ tên: Nguyễn Văn Hải
@@ -35,13 +35,21 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 - **Mục tiêu**: Tiêu diệt càng nhiều kẻ địch càng tốt mà không để bị bắn trúng.
 - **Điểm số**: Mỗi kẻ địch bị tiêu diệt sẽ cộng điểm vào tổng điểm của bạn.
 
+## Các loại kẻ địch
+- Loại Basic
+  ![enemy](https://github.com/user-attachments/assets/308637ef-a4ce-4acc-b00e-d52bd01f386b)
+- Loại Fast
+![fast_enemy](https://github.com/user-attachments/assets/a198248c-ce47-4b54-b0f0-310efa9a7111)
+- Loại Strong
+  ![strong_enemy](https://github.com/user-attachments/assets/f53538d7-83a3-401a-9d9d-165a504f965f)
+
 ## Một vài hình ảnh về game
 - Bắt đầu
-![image](https://github.com/user-attachments/assets/de88d877-2b4e-4393-b5e1-f14b9be1fc80)
+![image](https://github.com/user-attachments/assets/2bb9d3b8-a9de-489b-b500-2faec463fadd)
+- Vào game
+  ![image](https://github.com/user-attachments/assets/22677d51-2937-402b-b06b-991ff1cacdbd)
+- Kết thúc
+![image](https://github.com/user-attachments/assets/63548a77-75f0-4a89-b89d-d6b3cb712de8)
 
 ## Nguồn tham khảo
-- Lấy source ảnh, âm thanh và font chữ từ các nguồn: pixabay.com, pngtree.com, dafont.com, ...
-  
-## Âm thanh
-- Tiếng đạn bắn: bullet.wav
-- Tiếng phát nổ: explosion.wav
+- Lấy source ảnh, âm thanh và font chữ từ các nguồn: pixabay.com(âm thanh, ảnh), pngtree.com(ảnh), dafont.com(font chữ), ...
