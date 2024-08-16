@@ -36,12 +36,23 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 - **Điểm số**: Mỗi kẻ địch bị tiêu diệt sẽ cộng điểm vào tổng điểm của bạn.
 
 ## Các loại kẻ địch
-- Loại Basic
+
+### Loại Basic
+  Kẻ địch basic, có tốc độ di chuyển trung bình.
   ![453644429_1037715581056706_63211682297500715_n-removebg-preview](https://github.com/user-attachments/assets/8bf5b196-e07a-4666-9020-82f33a365bd3)
-- Loại Fast
+### Loại Fast
+  Kẻ địch fast, có tốc độ di chuyển nhanh, rơi ra item bắn đạn liên tục.
   ![453498087_2181294398872538_7395675315164132269_n-removebg-preview](https://github.com/user-attachments/assets/362eb72a-6ee1-4bb0-a8d1-e5a62147485e)
-- Loại Strong
+### Loại Strong
+  Kẻ địch strong, có tốc độ di chuyển nhanh, rơi ra item khiên bất tử.
   ![453653991_1880510125788386_6864094955909215025_n-removebg-preview](https://github.com/user-attachments/assets/b6f4ac28-bc3a-43ff-a6f6-06c4ebd947b0)
+
+## Các loại item
+
+### Item bắn đạn liên tục
+![image](https://github.com/user-attachments/assets/4934fbe4-ade0-4406-840a-e3d41ed4f906)
+### Item khiên bất tử
+![454156063_1396139281079975_7976905351537259216_n](https://github.com/user-attachments/assets/b7d06cb9-cf89-4e7c-bcf5-f33e7f322fb6)
 
 ## Một vài hình ảnh về game
 - Bắt đầu
