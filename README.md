@@ -35,19 +35,13 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 - **Mục tiêu**: Tiêu diệt càng nhiều kẻ địch càng tốt mà không để bị bắn trúng.
 - **Điểm số**: Mỗi kẻ địch bị tiêu diệt sẽ cộng điểm vào tổng điểm của bạn.
 
+## Một vài hình ảnh về game
+- Bắt đầu
+![image](https://github.com/user-attachments/assets/de88d877-2b4e-4393-b5e1-f14b9be1fc80)
 
-## Đồ họa/Icon
-- Kẻ địch và máy bay người chơi khi bị tiêu diệt có hiệu ứng phát nổ: explosion.png
-- Đạn: bullet.png
-- Kẻ địch thường: enemy.png
-- Kẻ địch loại fast: fast_enemy.png
-- Kẻ địch loại strong: strong_enemy.png
-- Mạng của người chơi: heart.png
-- Chữ Game Over: gameover.png
-- Máy bay người chơi: plane.png
-- Đồ rơi ra khi hạ gục kẻ địch loại fast: star.png
-- Đồ rơi ra khi hạ gục kẻ địch loại strong: khien.png
-
+## Nguồn tham khảo
+- Lấy source ảnh, âm thanh và font chữ từ các nguồn: pixabay.com, pngtree.com, dafont.com, ...
+  
 ## Âm thanh
 - Tiếng đạn bắn: bullet.wav
 - Tiếng phát nổ: explosion.wav
