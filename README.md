@@ -5,27 +5,30 @@
 * Mã số sinh viên: 21021487
 
 ## Giới thiệu cơ bản về game
-Plane Shooter là một trò chơi điều khiển một chiếc máy bay chiến đấu và tiêu diệt kẻ địch để ghi điểm. Trò chơi được phát triển bằng C++ và SDL.
+
+Plane Shooter là một trò chơi điện tử được phát triển bằng ngôn ngữ lập trình C++ và thư viện SDL, nơi người chơi điều khiển một chiếc máy bay chiến đấu và tiêu diệt các kẻ địch để ghi điểm. Người chơi sẽ phải đối mặt với những làn sóng kẻ địch xuất hiện ngày càng dày đặc, đòi hỏi sự nhanh nhạy và kỹ năng điều khiển chính xác. Mục tiêu của trò chơi là sống sót càng lâu càng tốt, tiêu diệt nhiều kẻ địch để đạt được số điểm cao nhất.
+
+Trong suốt quá trình chơi, người chơi có thể thu thập các vật phẩm đặc biệt xuất hiện ngẫu nhiên trên màn hình, giúp cải thiện sức mạnh tấn công hoặc phòng thủ của máy bay, chẳng hạn như bắn đạn nhanh hơn, bắn nhiều đạn cùng lúc, hoặc tạo ra một lớp lá chắn bảo vệ tạm thời. Điều này tạo ra sự hấp dẫn và phụ thuộc vào sự may mắn của người chơi.
+
+Với đồ họa 2D đơn giản nhưng đẹp mắt, cùng với âm thanh sống động, Plane Shooter hứa hẹn mang đến những giờ phút giải trí thú vị, đầy kịch tính cho người chơi.
+
+Video giới thiệu về game: ...
 
 ## Cấu trúc game
-Game bao gồm màn hình chính, màn hình chơi game và màn hình kết thúc game.
-1. **Màn hình chính**: Bao gồm tên game và nút Play, khi bấm vào nút Play sẽ vào màn hình chơi game.
-2. **Màn hình chơi game**:
-  - Góc bên trái phía trên màn hình có 3 hình trái tim thể hiện số mạng của người chơi, khi bị kẻ địch bắn trúng sẽ mất 1 trái tim, khi hết trái tim sẽ chuyển sang màn hình kết thúc.
-  - Góc bên phải phía trên màn hình có số điểm, ban đầu có 0 điểm, khi người chơi bắn chết 1 kẻ địch sẽ được cộng 10 điểm.
-  - Sprite máy bay của người chơi.
-  - Sprite kẻ địch xuất hiện ngẫu nhiên:
-    1. Loại Basic
-    2. Loại Fast (khi bị hạ gục sẽ xuất hiện đồ (hình viên đạn) rơi từ trên xuống)
-    3. Loại Strong (khi bị hạ gục sẽ xuất hiện đồ (hình khiên) rơi từ trên xuống)
-  - Đạn (do người chơi và kẻ địch bắn ra).
+- Collision.cpp: Kiểm tra va chạm giữa các thực thể trong game, chẳng hạn như đạn hoặc đồ của địch và máy bay của người chơi, ...
+* Dan.cpp: Vẽ đạn của người chơi và kẻ địch, kiểm soát các thông tin của đạn như tốc độ, ...
++ Enemy.cpp: Vẽ kẻ địch và kiểm soát các thông tin của kẻ địch như tần suất xuất hiện mỗi loại kẻ địch, tốc độ di chuyển, ...
 
-  - Người chơi nhặt đồ hình viên đạn sẽ có viên đạn bên trên sprite máy bay của người chơi, trong 3 giây tiếp theo người chơi bấm space liên tục sẽ bắn đạn liên tục.
-  - Người chơi nhặt đồ hình khiên sẽ có khiên bên trên sprite máy bay của người chơi, trong 3 giây tiếp theo nếu người chơi bị kẻ địch bắn trúng sẽ ko mất mạng.
 
-3. **Màn hình kết thúc game**: Bao gồm chữ Game Over, số điểm người chơi đạt được và 2 nút bấm: Play Again và Quit.
+- Graphics.cpp: Vẽ màn hình menu, màn hình kết thúc, hearts, kiểm soát việc tải ảnh
+* Item.cpp: Vẽ đồ của kẻ địch khi bị tiêu diệt (loại fast và strong), kiểm soát các thông tin của đồ như tốc độ rơi, ...
 
++ Player.cpp: Vẽ máy bay của người chơi
+
+## Cách cài đặt
+...
 ## Cách chơi game
+Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng cách tiêu diệt liên tục những kẻ địch xuất hiện, né tránh những viên đạn của chúng và tận dụng những lợi phẩm của kẻ địch rơi ra.
 
 - **Di chuyển**: Sử dụng các phím mũi tên để điều khiển hướng di chuyển của máy bay.
 - **Bắn**: Nhấn phím Space để bắn đạn (chỉ bắn được 1 viên mỗi giây nếu đang ko sở hữu đồ của kẻ địch loại fast)
