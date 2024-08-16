@@ -37,7 +37,7 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 
 ## Các loại kẻ địch
 - Loại Basic
-  ![455105119_1005678631337339_7153124175854775109_n-removebg-preview](https://github.com/user-attachments/assets/ea9d6f24-0b14-4c10-92b6-c8d74d2b9094)
+  ![453644429_1037715581056706_63211682297500715_n-removebg-preview](https://github.com/user-attachments/assets/8bf5b196-e07a-4666-9020-82f33a365bd3)
 - Loại Fast
   ![453498087_2181294398872538_7395675315164132269_n-removebg-preview](https://github.com/user-attachments/assets/362eb72a-6ee1-4bb0-a8d1-e5a62147485e)
 - Loại Strong
