@@ -37,12 +37,11 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 
 ## Các loại kẻ địch
 - Loại Basic
-  ![image](https://github.com/user-attachments/assets/02925241-2b2e-4a82-99ee-951e5e7e253c)
-- Loại Fast
-  ![image](https://github.com/user-attachments/assets/c3651aee-8239-432d-aba7-2342738c9f0a)
-- Loại Strong
-  ![image](https://github.com/user-attachments/assets/3dd5146e-299a-4768-8c3e-6a8b92c8793a)
   ![455105119_1005678631337339_7153124175854775109_n-removebg-preview](https://github.com/user-attachments/assets/ea9d6f24-0b14-4c10-92b6-c8d74d2b9094)
+- Loại Fast
+  ![453498087_2181294398872538_7395675315164132269_n-removebg-preview](https://github.com/user-attachments/assets/362eb72a-6ee1-4bb0-a8d1-e5a62147485e)
+- Loại Strong
+  ![453653991_1880510125788386_6864094955909215025_n-removebg-preview](https://github.com/user-attachments/assets/b6f4ac28-bc3a-43ff-a6f6-06c4ebd947b0)
 
 ## Một vài hình ảnh về game
 - Bắt đầu
