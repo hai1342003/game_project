@@ -25,8 +25,6 @@ Video giới thiệu về game: ...
 
 + Player.cpp: Vẽ máy bay của người chơi
 
-## Cách cài đặt
-...
 ## Cách chơi game
 Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng cách tiêu diệt liên tục những kẻ địch xuất hiện, né tránh những viên đạn của chúng và tận dụng những lợi phẩm của kẻ địch rơi ra.
 
