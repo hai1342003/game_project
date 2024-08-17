@@ -60,7 +60,7 @@ Bạn phải tìm cách kiểm được nhiều điểm nhất có thể bằng 
 
 - Bước 1: Download file về máy
 * Bước 2: Giải nén
-+ Bước 3: Tìm file ....exe, mở file ra và tận hưởng trò chơi.
++ Bước 3: Tìm file sdl_window.exe, mở file ra và tận hưởng trò chơi.
 
 ## Kỹ thuật sử dụng
 
