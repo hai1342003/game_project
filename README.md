@@ -12,7 +12,7 @@ Trong suốt quá trình chơi, người chơi có thể thu thập các vật p
 
 Với đồ họa 2D đơn giản nhưng đẹp mắt, cùng với âm thanh sống động, Plane Shooter hứa hẹn mang đến những giờ phút giải trí thú vị, đầy kịch tính cho người chơi.
 
-Video giới thiệu về game: [...](https://drive.google.com/drive/folders/1DJ1fzuAlyfTpZR5PW7bsUcQZpnQPSTu_)
+Video giới thiệu về game: (https://drive.google.com/drive/folders/1DJ1fzuAlyfTpZR5PW7bsUcQZpnQPSTu_)
 
 ## Cấu trúc game
 - Collision.cpp: Kiểm tra va chạm giữa các thực thể trong game, chẳng hạn như đạn hoặc đồ của địch và máy bay của người chơi, ...
